@@ -74,6 +74,7 @@ For MEL dissection (applied within the previous script) a list of sorghum genes 
 Use Analyze_qPCR.R to convert qPCR CT values to log(CFU/mL) based on Faecalibacterium standard curve, do statistical analysis, and generate heatmap.
 The qPCR output of Faecalibacterium including metadata for the MEL6A validation study in the publication are available as Supplemental Dataset 3
 
-
+# Notes
 For autoencoder platform see: https://github.com/mtross2/autoencoder_hyperspec_ref
+
 If you'd like to apply any of this code to your pipeline and are meeting difficulties, feel free to reach out - Since writing this code I've developed a few more elegant solutions to answer these and similar questions.
