@@ -1,4 +1,8 @@
 library(rMVP)
+#Prep data for rMVP - might be best to do this in seperate script:
+MVP.Data(fileVCF="../input/Genotype/SAP_imputed_Filter3.vcf", fileKin=TRUE, filePC=TRUE, pcs.keep=3, out="../input/Genotype/SAP")
+#Move all genotype files to scratch folder when batching this R job (This saves a ton of time) use cp *.desc /scratch 
+
 phenotype1<-read.csv("../../input/SAP_CompiledBLUEs3.csv",head=TRUE)
 genotype<-attach.big.matrix("/scratch/SAP.geno.desc")
 map<-read.table("/scratch/SAP.geno.map", head = TRUE)
@@ -7,8 +11,8 @@ covariates_PC<-bigmemory::as.matrix(attach.big.matrix("/scratch/SAP.pc.desc"))
 
 #remove columns not to be ran (i.e. the line info):
 phenotype2 <- as.data.frame(phenotype1[-c(1)])
-phenotype2 <- as.data.frame(phenotype2[c(367:370)])
-
+phenotype2 <- as.data.frame(phenotype2)
+#If taking too long might be worth subsetting and runnin in parallel:
 #S1:
 #phenotype2 <- as.data.frame(phenotype2[c(1:107)])
 
@@ -37,8 +41,10 @@ phenotype2 <- as.data.frame(phenotype2[c(367:370)])
 phenolist<-names(phenotype2)
 
 #Function to perform 100 iterations of FarmCPU removing ~10% of the data to change amount alter z
+#This threshold calculated using the effective SNP number from GEC tool
 thresh<-0.05/861521.36
 
+#This function + loop is designed to run FarmCPU GWAS 100 time, each time randomly removing 32 genotypes:
 RunRMIP<-function(x,column){
   ph<-as.data.frame(cbind(phenotype1$Line,x[,column]))
   
@@ -78,6 +84,7 @@ RunRMIP<-function(x,column){
   return(SAPSNPs)
 }
 
+#This loop applies function to every name column in phenotype file listed in phenolist
 for (i in 1:length(phenolist)){
   RMIPSNPs<-RunRMIP(phenotype2,i)
   if(nrow(RMIPSNPs)>1){
