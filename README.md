@@ -1,4 +1,6 @@
 ## Sorghum Diversity Panel Microbiome Project
+This is code used in a study published in G3: **Genomic co-localization of variation affecting agronomic and human gut microbiome traits in a meta-analysis of diverse sorghum** and can be found here: https://academic.oup.com/g3journal/article/14/9/jkae145/7709703
+
 Code from the GWAS analysis of microbiome phenotypes. Most code is in R, more annotations to come/by request (nate.korthATgmail.com)
 
 All phenotype data referenced in this code availible in publication (LINK TO COME)
